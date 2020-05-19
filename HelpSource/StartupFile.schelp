@@ -1,0 +1,88 @@
+TITLE:: StartupFile
+summary:: switch between startup files.
+categories:: Customization
+related:: Classes/Platform, Classes/Quarks
+
+DESCRIPTION::
+StartupFile allows easy switching between multiple startup files,
+so one can keep working on different projects.
+It writes a text file that redirects to one of the known startup files.
+code::
+// top level convenience - choose from known startup files:
+StartupFile.choose;
+
+// the startupfile that will be loaded next time:
+StartupFile.open;
+// the available files
+StartupFile.fileNames.cs;
+// which live here:
+StartupFile.filesDir;
+StartupFile.openDir;
+
+// the defaultPath is where the system looks for startup file;
+// StartupFile writes the redirect startup file there.
+StartupFile.defaultPath;
+StartupFile.openDefault;
+
+// StartupFile has some examples here:
+StartupFile.examplesDir.openOS;
+
+// which get copied automatically into filesDir on startup
+StartupFile.filePaths.printcsAll;
+
+// these redirect files need to get overwritten;
+// in case a non-redirecting startup file is found there,
+/// that file gets copied to the filesDir with a date-and-time stamp:
+StartupFile.openDir;
+
+// write a startup file that points to an external file path
+// which typically is a project load script:
+~externalPath = "~/Desktop/PumpFriction/loadMe.scd";
+StartupFile.writeStartupFileToExternalPath('PumpFriction', ~externalPath);
+StartupFile.writeRedirectFile('PumpFriction');
+// make that file
+File.mkdir(~externalPath.dirname.standardizePath);
+File.use(~externalPath.standardizePath, "w", { |file|
+	file.write("thisProcess.nowExecutingPath.openOS")
+});
+
+/// now recompile, and that file should open itself by code:
+thisProcess.recompile;
+StartupFile.choose;
+
+::
+
+CLASSMETHODS::
+
+private:: initClass
+
+METHOD:: choose
+opens a window to choose from available startup files.
+
+METHOD:: currentName
+the filename of the currently selected startupFile
+METHOD:: currentPath
+the path to the currently selected startupFile
+
+METHOD:: fileNames
+the names of the available startup files.
+
+METHOD:: filesDir
+the directory where the startup files live.
+METHOD:: updateFiles
+update fileNames by rechecking filesDir
+
+METHOD:: openDir
+open the filesDir
+METHOD:: examplesDir
+a folder with example startup files
+
+METHOD:: defaultPath
+the path where SC looks for startup files.
+StartupFile writes a file there that redirects to a selected startup file
+METHOD:: openDefault
+open file at defaultPath
+
+private:: backupCurrentIfNeeded, copyExamples, dirname
+private:: filePaths, findPath, initExamples, pathsDict
+private:: redirectLoad, redirectText, startupPath, writeRedirectFile
