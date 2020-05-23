@@ -81,17 +81,22 @@ StartupFile {
 	*openDir { filesDir.openOS }
 
 	*choose {
-		var w = Window("Choose startup file:",
-			Rect.aboutPoint(Window.screenBounds.center, 100, 100));
-		var write = { |name|  };
-		var buttons = this.fileNames.collect { |name|
-			Button(w).states_([[name]]).action_({
+		var w, buttons;
+		var onCol = Color.green;
+		var offCol = Color.grey(0.62);
+
+		this.updateFiles;
+		w = Window("Choose startup file:",
+			Rect.aboutPoint(Window.screenBounds.center, 100, 100)
+		);
+		buttons = this.fileNames.collect { |name|
+			var col = if (name == currentName, onCol, offCol);
+			Button(w).states_([[name, nil, col]]).action_({
 				this.writeRedirectFile(name);
 				currentName = name;
 				w.close
 			})
-		} ++
-		[ Button(w).states_([[\CANCEL]]).action_({ w.close }) ];
+		};
 		w.layout = VLayout(*buttons);
 		w.front;
 	}
