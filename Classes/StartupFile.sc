@@ -81,7 +81,7 @@ StartupFile {
 	*openDir { filesDir.openOS }
 
 	*choose {
-		var w, buttons;
+		var w, buttons, openButtons;
 		var onCol = Color.green;
 		var offCol = Color.grey(0.62);
 
@@ -97,7 +97,15 @@ StartupFile {
 				w.close
 			})
 		};
-		w.layout = VLayout(*buttons);
+		openButtons = this.fileNames.collect { |name|
+			Button(w).states_([[\open]]).action_({
+				this.open(name);
+			})
+		};
+		w.layout = HLayout(
+			VLayout(*buttons),
+			VLayout(*openButtons)
+		);
 		w.front;
 	}
 
