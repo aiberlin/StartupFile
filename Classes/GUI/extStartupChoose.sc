@@ -1,6 +1,11 @@
 + StartupFile {
 
 	*choose {
+		"%: renamed to StartupFile.dialog...".postln;
+		this.dialog
+	}
+
+	*dialog {
 		var w, buttons, openButtons;
 		var onCol = Color.green;
 		var offCol = Color.grey(0.62);
