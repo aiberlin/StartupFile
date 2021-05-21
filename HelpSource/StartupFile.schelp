@@ -8,20 +8,23 @@ StartupFile allows easy switching between multiple startup files,
 so one can keep working on different projects.
 It writes a text file that redirects to one of the known startup files.
 code::
-// top level convenience - choose from known startup files:
-StartupFile.choose;
+// top level convenience GUI shows names of all startup files:
+StartupFile.dialog;
+// clicking on a name-button selects it as startup after recompile;
+// alt-click on named-button selects it and recompiles immediately;
+// "open" button opens that file.
 
-// the startupfile that will be loaded next time:
+// the currently selected startupfile (will be loaded next time):
 StartupFile.open;
-// the available files
+// all available files
 StartupFile.fileNames.cs;
-// which live here:
+// the dir where they live:
 StartupFile.filesDir;
 StartupFile.openDir;
 
 // the defaultPath is where the system looks for startup file;
-// StartupFile writes the redirect startup file there.
 StartupFile.defaultPath;
+// StartupFile writes the redirect startup file there.
 StartupFile.openDefault;
 
 // StartupFile has some examples here:
@@ -48,7 +51,7 @@ File.use(~externalPath.standardizePath, "w", { |file|
 
 /// now recompile, and that file should open itself by code:
 thisProcess.recompile;
-StartupFile.choose;
+StartupFile.dialog;
 
 ::
 
@@ -56,8 +59,8 @@ CLASSMETHODS::
 
 private:: initClass
 
-METHOD:: choose
-opens a window to choose from available startup files.
+METHOD:: dialog
+opens a window to select from available startup files.
 
 METHOD:: currentName
 the filename of the currently selected startupFile
