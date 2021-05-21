@@ -16,9 +16,12 @@
 		);
 		buttons = this.fileNames.collect { |name|
 			var col = if (name == currentName, onCol, offCol);
-			Button(w).states_([[name, nil, col]]).action_({
+			Button(w).states_([[name, nil, col]]).action_({ |bt, mod = 0|
 				this.writeRedirectFile(name);
 				currentName = name;
+				if (mod.isAlt) {
+					thisProcess.recompile;
+				};
 				w.close
 			})
 		};
