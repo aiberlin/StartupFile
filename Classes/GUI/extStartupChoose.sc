@@ -14,6 +14,7 @@
 		w = Window("Choose startup file:",
 			Rect.aboutPoint(Window.screenBounds.center, 100, 100)
 		);
+
 		buttons = this.fileNames.collect { |name|
 			var col = if (name == currentName, onCol, offCol);
 			Button(w).states_([[name, nil, col]]).action_({ |bt, mod = 0|
@@ -30,9 +31,12 @@
 				this.open(name);
 			})
 		};
-		w.layout = HLayout(
-			VLayout(*buttons),
-			VLayout(*openButtons)
+		w.layout = VLayout(
+			StaticText(w).string_("Click to select,\nAlt-Click to reboot").align_('center'),
+			HLayout(
+				VLayout(*buttons),
+				VLayout(*openButtons)
+			)
 		);
 		w.front;
 	}
