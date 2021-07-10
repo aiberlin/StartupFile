@@ -1,7 +1,7 @@
 
 StartupFile {
 
-	classvar <startupPath, <dirname = "startup_files/", <filesDir, <examplesDir;
+	classvar <startupPath, <dirname = "startup_files", <filesDir, <examplesDir;
 	classvar <filePaths, <fileNames, <pathsDict;
 	classvar <currentName, <currentPath;
 	classvar <redirectText, <fileExt = ".scd";
@@ -11,10 +11,16 @@ StartupFile {
 	*initClass {
 		startupPath = this.defaultPath;
 		filesDir = (startupPath.dirname +/+ dirname);
-		if (filesDir.pathMatch.isEmpty) { File.mkdir(filesDir) };
+		examplesDir = this.filenameSymbol.asString.dirname.dirname +/+ "startupFileExamples";
+
+		if (filesDir.pathMatch.isEmpty) {
+			File.mkdir(filesDir);
+
+			this.copyExamples;
+		};
 
 		pathsDict = ();
-		this.initExamples;
+
 		this.updateFiles;
 
 		redirectText = "/****\n"
@@ -36,15 +42,8 @@ StartupFile {
 		"---".postln;
 	}
 
-	*initExamples {
-		// should move into resourceDir eventually
-		examplesDir = (this.filenameSymbol.asString.dirname.dirname
-			+/+ "startupFileExamples/");
-		this.copyExamples;
-	}
-
 	*copyExamples {
-		var filePaths = pathMatch(examplesDir +/+ "/*.scd");
+		var filePaths = pathMatch(examplesDir +/+ "*.scd");
 		// "% : % example filePaths found.\n".postf(this, filePaths.size);
 		filePaths.do { |path|
 			path = path.escapeChar($ );
