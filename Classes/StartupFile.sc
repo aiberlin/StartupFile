@@ -37,8 +37,9 @@ StartupFile {
 			pathsDict.put(name, path);
 			name
 		};
-		"---\nStartupFile fileNames:".postln;
-		fileNames.printcsAll;
+		"---\n// StartupFile found % files; to choose or open one, do:\n"
+		.postf(fileNames.size);
+		"StartupFile.dialog;".postln;
 		"---".postln;
 	}
 
@@ -69,7 +70,7 @@ StartupFile {
 
 	*redirectLoad { |name|
 		this.findPath(name, { |path|
-			"*** %: loading %\n\n".postf(this, path);
+			"*** %: loading %\n\n".postf(this, path.basename);
 			currentName = name;
 			currentPath = path;
 			path.standardizePath.load;
