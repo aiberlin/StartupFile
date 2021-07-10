@@ -8,23 +8,20 @@ StartupFile allows easy switching between multiple startup files,
 so one can keep working on different projects.
 It writes a text file that redirects to one of the known startup files.
 code::
-// top level convenience GUI shows names of all startup files:
+// top level convenience - select by gui from known startup files:
 StartupFile.dialog;
-// clicking on a name-button selects it as startup after recompile;
-// alt-click on named-button selects it and recompiles immediately;
-// "open" button opens that file.
 
-// the currently selected startupfile (will be loaded next time):
+// the startupfile that will be loaded next time:
 StartupFile.open;
-// all available files
+// the available files
 StartupFile.fileNames.cs;
-// the dir where they live:
+// which live here:
 StartupFile.filesDir;
 StartupFile.openDir;
 
 // the defaultPath is where the system looks for startup file;
-StartupFile.defaultPath;
 // StartupFile writes the redirect startup file there.
+StartupFile.defaultPath;
 StartupFile.openDefault;
 
 // StartupFile has some examples here:
@@ -40,7 +37,7 @@ StartupFile.openDir;
 
 // write a startup file that points to an external file path
 // which typically is a project load script:
-~externalPath = "~/Desktop/PumpFriction/loadMe.scd";
+~externalPath = "~/Desktop/PumpFriction/00_loadMe.scd";
 StartupFile.writeStartupFileToExternalPath('PumpFriction', ~externalPath);
 StartupFile.writeRedirectFile('PumpFriction');
 // make that file
@@ -69,6 +66,8 @@ the path to the currently selected startupFile
 
 METHOD:: fileNames
 the names of the available startup files.
+METHOD:: filePaths
+the paths of the available startup files.
 
 METHOD:: filesDir
 the directory where the startup files live.
@@ -87,5 +86,5 @@ METHOD:: openDefault
 open file at defaultPath
 
 private:: backupCurrentIfNeeded, copyExamples, dirname
-private:: filePaths, findPath, initExamples, pathsDict
+private:: filePaths, findPath, pathsDict
 private:: redirectLoad, redirectText, startupPath, writeRedirectFile
