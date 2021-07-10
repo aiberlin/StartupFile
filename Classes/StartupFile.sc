@@ -24,8 +24,13 @@ StartupFile {
 		this.updateFiles;
 
 		redirectText = "/****\n"
+		"/// Redirection file written by StartupFile quark.\n"
+		"/// open destination file with:\n"
 		"Document.open(%);\n"
-		"****/\n"
+		"StartupFile.open(%);\n"
+		"/// choose or open files:\n"
+		"StartupFile.dialog;\n"
+		"***************************/\n\n"
 		"StartupFile.redirectLoad(%);";
 	}
 
@@ -104,7 +109,7 @@ StartupFile {
 		};
 		this.backupCurrentIfNeeded;
 		"*** % : writing redirect to %.\n".postf(this, name.cs);
-		text = redirectText.format(pathToRedirectTo.cs, name.cs);
+		text = redirectText.format(pathToRedirectTo.cs, name.cs, name.cs);
 		File.use(this.defaultPath, "w", { |f| f.write(text) });
 	}
 
