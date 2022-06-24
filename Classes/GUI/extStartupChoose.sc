@@ -11,7 +11,7 @@
 		var offCol = Color.grey(0.62);
 
 		this.updateFiles;
-		w = Window("Choose startup file:",
+		w = Window("Startup files",
 			Rect.aboutPoint(Window.screenBounds.center, 100, 100)
 		);
 
@@ -32,7 +32,11 @@
 			})
 		};
 		w.layout = VLayout(
-			StaticText(w).string_("Click to select,\nAlt-Click to reboot").align_('center'),
+			Button(w).states_([["Open startup_files dir"]])
+			.action_({ this.filesDir.openOS }),
+			StaticText(w).align_('center')
+			.string_("Click to select,\nAlt-Click to reboot:"),
+
 			HLayout(
 				VLayout(*buttons),
 				VLayout(*openButtons)
