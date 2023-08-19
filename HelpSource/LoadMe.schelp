@@ -1,0 +1,69 @@
+TITLE:: LoadMe
+summary:: convenience for loadscripts
+categories:: Utilities
+related:: Classes/StartupFile
+
+DESCRIPTION::
+A convenience class for writing scripts that load multiple
+code files used for a given setup. It expands filenames
+and measures and optionally posts loading times.
+
+First code examples:
+
+code::
+
+LoadMe.start; // begin measuring time
+s.waitForBoot {
+
+	0.2.wait;
+	// load a file by relative path
+	// - this file is in the quark HelpSource Dir
+	LoadMe("relativeCodeFile1_exists.scd");
+	// try a non-existing file
+	LoadMe("relativeCodeFile2_notThere.scd");
+	// paths will be standardized
+	LoadMe("~/Desktop/absolutePathCodefile_notThere.scd");
+
+	0.2.wait;
+	LoadMe.end;
+};
+
+
+::
+
+CLASSMETHODS::
+
+METHOD:: new
+loads file(s) with the given filename or path
+argument:: filename
+relative or absolute pathname
+argument:: dir
+optional dir where to look for relative paths
+argument:: server
+the server to be optionally synced after loading
+argument:: preText
+text to post before loading the file(s)
+argument:: postText
+text to post after loading the file(s)
+
+METHOD:: postTime
+flag whether to post loading time or not
+
+METHOD:: start
+begin measuring loading time
+argument:: comment
+an optional comment to post when starting
+
+METHOD:: end
+declare loading finished and optionally post loading time
+argument:: comment
+with an optional comment
+
+METHOD:: totalTime
+the total time between start and end
+
+METHOD:: globalStartTime
+time at which loading started
+
+INSTANCEMETHODS::
+None, LoadMe is a singleton which has no meaningful instances.
