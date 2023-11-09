@@ -37,12 +37,15 @@
 
 		dropper = DragSink(w).object_("*** drop file here ***")
 		.receiveDragHandler_ { |ds|
-			var drag = View.currentDrag.postcs;
+			var drag = View.currentDrag;
 			var pathSep = Platform.pathSeparator;
+			var filename;
+			"*** drop got % \n".postf(drag);
 			if (drag.isKindOf(String) and: { drag.first == pathSep }) {
-				drag.postcs;
 				ds.object = drag;
-				ds.string = drag.basename.splitext.first;
+				filename = drag.basename.splitext.first;
+				ds.string = filename;
+				nameView.string = filename;
 			};
 		};
 		nameView = TextView(w).string_("enter name")
@@ -56,6 +59,8 @@
 					nameView.string,
 					dropper.object
 				);
+				w.close;
+				this.dialog;
 			};
 		});
 
