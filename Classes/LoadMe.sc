@@ -4,6 +4,16 @@ LoadMe {
 	classvar <>postTime = true;
 	classvar <globalStartTime, <totalTime;
 
+	*isAbsolute { |path|
+		^path[0].isPathSeparator or: {
+			path.copyRange(1, 2) == ":\\";
+
+		}
+	}
+	*isRelative { |path|
+		^this.isAbsolute(path).not
+	}
+
 	*start { |comment=""|
 		"\n*** LoadMe starts --- %\n\n".postf(comment);
 		globalStartTime = Main.elapsedTime;
@@ -15,7 +25,7 @@ LoadMe {
 	}
 
 	*new { |filename, dir, server, preText = "", postText = ""|
-		var path, paths;
+		var path, paths, localDir;
 		var doSync = server.notNil and: { server.serverRunning } and: { thisThread.isKindOf(Routine) };
 		if (filename.isNil) {
 			warn("%: path was nil! not loading.".format(this));
@@ -23,9 +33,17 @@ LoadMe {
 		};
 
 		path = filename.standardizePath;
-		// if path is relative:
-		if (path[0].isPathSeparator.not) {
-			dir = dir ?? { thisProcess.nowExecutingPath.dirname };
+		"// if path is relative:".postln;
+		path.postcs;
+		if (LoadMe.isRelative(path)) {
+			dir = dir ?? {
+				localDir = thisProcess.nowExecutingPath.dirname;
+				if (localDir.isNil) {
+					"% - cannot find localDir.".postf(path);
+					^nil
+				};
+				localDir
+			};
 			path = (dir +/+ path);
 		};
 
