@@ -33,8 +33,7 @@ LoadMe {
 		};
 
 		path = filename.standardizePath;
-		"// if path is relative:".postln;
-		path.postcs;
+		// "// if path is relative:".postln; path.postcs;
 		if (LoadMe.isRelative(path)) {
 			dir = dir ?? {
 				localDir = thisProcess.nowExecutingPath.dirname;
