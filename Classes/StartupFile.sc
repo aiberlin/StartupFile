@@ -24,11 +24,11 @@ StartupFile {
 		this.updateFiles;
 
 		redirectText = "/****\n"
-		"/// Redirection file written by StartupFile quark.\n"
+		"/// Redirection file written by StartupFile.\n"
 		"/// open destination file with:\n"
-		"Document.open(%);\n"
+		"Document.open(%); // or\n"
 		"StartupFile.open(%);\n"
-		"/// choose or open files:\n"
+		"/// select or open startup files:\n"
 		"StartupFile.dialog;\n"
 		"***************************/\n\n"
 		"StartupFile.redirectLoad(%);";
