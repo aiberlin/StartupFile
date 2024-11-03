@@ -5,6 +5,7 @@
 		this.dialog
 	}
 
+	// numToShow can be used to try different numbers of files/buttons
 	*dialog { |numToShow|
 		var w, dropper, nameView, saveBut, buttons, openButtons;
 		var onCol = Color.green;
@@ -18,13 +19,13 @@
 		numColumns = (namesToShow.size / 6).sqrt.roundUp.asInteger.max(1);
 		numRows = (numToShow / numColumns).roundUp.asInteger;
 
-		"numColumns: %, numRows: % \n\n".postf(numColumns, numRows);
+		// "numColumns: %, numRows: % \n\n".postf(numColumns, numRows);
 
 		w = Window("Startup files",
 			Rect.aboutPoint(Window.screenBounds.center,
 				numColumns * 75,
 				numRows + 4 * 15
-			).postln
+			)
 		);
 		w.view.minSize_(Size(150, 170));
 		w.view.maxSize_(Size(*Window.screenBounds.extent.asArray));
@@ -88,7 +89,7 @@
 		);
 
 		w.layout.add(
-			GridLayout.rows(*buttons.clump(numColumns))
+			GridLayout.columns(*buttons.clump(numRows))
 		);
 		w.front;
 		^w
