@@ -66,10 +66,14 @@
 		buttons = namesToShow.collect { |name|
 			var col = if (name == currentName, onCol, offCol);
 			Button(w).states_([[name, nil, col]]).action_({ |bt, mod = 0|
-				this.writeRedirectFile(name);
-				currentName = name;
-				if (mod.isAlt) {
-					thisProcess.recompile;
+				if (mod.isShift) {
+					StartupFile.open(name);
+				} {
+					this.writeRedirectFile(name);
+					currentName = name;
+					if (mod.isAlt) {
+						thisProcess.recompile;
+					}
 				};
 				w.close
 			})
