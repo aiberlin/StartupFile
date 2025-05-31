@@ -53,19 +53,23 @@ LoadMe {
 		};
 
 		if (paths.size > 1) {
-			"****** % matching files for % :\n".postf(paths.size, path.cs)
+			"*** LoadMe: % matching files at path\n% :\n".postf(paths.size, path.cs)
 		};
 
-		^paths.collect { |path|
+		^paths.collect { |path, i|
 			var t0 = Main.elapsedTime, loadDur;
 			var result;
-			"*** loading % : %".postf(path.basename, preText);
+			if (paths.size > 1) {
+				"--- loading % at % : %\n".postf(i, path.basename, preText);
+			} {
+				"--- loading % : %\n".postf(path.basename, preText);
+			};
 			result = path.load;
 
 			if (doSync ) { server.sync };
 			if (postTime) {
 				loadDur = (Main.elapsedTime - t0).round(0.001);
-				"... in % secs. %\n".postf(loadDur, postText);
+				"    ... in % secs. %\n".postf(loadDur, postText);
 			};
 			result;
 		}.unbubble;

@@ -73,9 +73,10 @@
 					currentName = name;
 					if (mod.isAlt) {
 						thisProcess.recompile;
-					}
+					};
+					w.close
 				};
-				w.close
+
 			})
 		};
 
