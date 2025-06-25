@@ -71,7 +71,7 @@ StartupFile {
 		^path
 	}
 
-	*open { |name| this.findPath(name ? currentName, (_.openOS)) }
+	*open { |name| Document.open(this.findPath(name ? currentName)) }
 
 	*redirectLoad { |name|
 		this.findPath(name, { |path|
